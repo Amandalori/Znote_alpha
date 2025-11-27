@@ -1,7 +1,7 @@
 {
     "name": "Z note alpha",
     "short_name": "Z note",
-    "description": "Dress designer managment system",
+    "description": "Managment system",
     "start_url": "/Znote_alpha/",
     "display": "standalone",
     "icons": [
@@ -16,4 +16,5 @@
             "type": "image/png"
         }
     ]
+
 }
