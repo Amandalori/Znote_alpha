@@ -1,0 +1,2393 @@
+
+<!doctype html>
+<html lang="en"> 
+<head> 
+    <!-- Google tag (gtag.js) - Added for Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NBTNR6QQ7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-5NBTNR6QQ7');
+    </script>
+    <!-- End Google tag -->
+
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Z note alpha test</title> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <link rel="apple-touch-icon" href="/Znote_alpha/icons/icon-192x192.png"> 
+  <link rel="apple-touch-icon" sizes="512x512" href="/Znote_alpha/icons/icon-512x512.png"> 
+  <link rel="manifest" href="/Znote_alpha/manifest.json">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> 
+    <!-- Barcode Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <!-- Marked Library for Markdown parsing (AI response) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style type="text/css">
+:root {
+  --primary-color-light: #1877F2;
+  --secondary-color-light: #65676B;
+  --accent-color-light: #1877F2;
+  --danger-color-light: #E02840;
+  --success-color-light: #31A24C;
+  --text-color-light: #65676B;
+  --text-emphasis-light: #050505;
+  --bg-color-light:   #dfe2e9;
+  --card-bg-light: #FFFFFF;
+  --border-color-light: #dfe1e6;
+  --shadow-color-light: rgba(0, 0, 0, 0.1);
+  --hover-overlay-light: rgba(0, 0, 0, 0.05);
+  --gold-color: #FFD700;
+  --gold-text-dark: #B8860B;
+  --creator-color: #1877F2; /* Purple for Content Creator */
+
+  --primary-color-dark: #1877F2;
+  --secondary-color-dark: #B0B3B8;
+  --accent-color-dark: #1877F2;
+  --danger-color-dark: #E02840;
+  --success-color-dark: #31A24C;
+  --text-color-dark: #B0B3B8;
+  --text-emphasis-dark: #E4E6EB;
+  --bg-color-dark: #171a1d;
+  --card-bg-dark: #202325;
+  --border-color-dark: #363a3d;
+  --shadow-color-dark: rgba(0, 0, 0, 0.25);
+  --hover-overlay-dark: rgba(255, 255, 255, 0.1);
+  --warning-color: #f77f00;
+  --border-radius: 8px;
+  --transition-duration: 0.3s ease;
+  --sidebar-width: 220px;
+  --header-height: 56px;
+}
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-color);
+  color: var(--text-color-dark);
+  transition: background-color var(--transition-duration), color var(--transition-duration);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+body.dark-mode {
+  --primary-color: var(--primary-color-dark);
+  --secondary-color: var(--secondary-color-dark);
+  --accent-color: var(--accent-color-dark);
+  --success-color: var(--success-color-dark);
+  --danger-color: var(--danger-color-dark);
+  --text-color: var(--text-color-dark);
+  --text-emphasis: var(--text-emphasis-dark);
+  --bg-color: var(--bg-color-dark);
+  --card-bg: var(--card-bg-dark);
+  --border-color: var(--border-color-dark);
+  --shadow-color: var(--shadow-color-dark);
+  --hover-overlay: var(--hover-overlay-dark);
+}
+body.light-mode {
+  --primary-color: var(--primary-color-light);
+  --secondary-color: var(--secondary-color-light);
+  --accent-color: var(--accent-color-light);
+  --danger-color: var(--danger-color-light);
+  --success-color: var(--success-color-light);
+  --text-color: var(--text-color-light);
+  --text-emphasis: var(--text-emphasis-light);
+  --bg-color: var(--bg-color-light);
+  --card-bg: var(--card-bg-light);
+  --border-color: var(--border-color-light);
+  --shadow-color: var(--shadow-color-light);
+  --hover-overlay: var(--hover-overlay-light);
+}
+.akmapp-container {
+  display: flex;
+  min-height: calc(100vh - var(--header-height));
+  padding-top: var(--header-height);
+}
+.akmheader {
+  height: var(--header-height);
+  background-color: var(--card-bg);
+  box-shadow: 0 1px 2px var(--shadow-color);
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: all var(--transition-duration);
+  border-bottom: 1px solid var(--border-color);
+}
+.akmlogo {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.akmlogo i {
+  font-size: 1.5rem;
+}
+.akmmenu-toggle {
+  background: none;
+  border: none;
+  color: var(--text-emphasis);
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-right: 15px;
+  display: none;
+}
+.akmheader-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.akmtheme-toggle {
+  background: none;
+  border: none;
+  color: var(--text-emphasis);
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+.akmsidebar {
+  width: var(--sidebar-width);
+  background-color: var(--card-bg);
+  box-shadow: 2px 0 4px var(--shadow-color);
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  bottom: 0;
+  transition: transform var(--transition-duration), background-color var(--transition-duration);
+  overflow-y: auto;
+  z-index: 90;
+  border-right: 1px solid var(--border-color);
+  transform: translateX(0);
+}
+.akmsidebar-collapsed {
+  transform: translateX(-100%);
+}
+.akmsidebar.show {
+  transform: translateX(0);
+}
+.akmsidebar-menu {
+  list-style: none;
+  padding: 15px 0;
+  margin: 0;
+}
+.akmmenu-title {
+  padding: 8px 15px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-color);
+  opacity: 0.7;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.akmmenu-item {
+  margin-bottom: 4px;
+}
+.akmmenu-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: var(--text-emphasis);
+  text-decoration: none;
+  transition: background-color var(--transition-duration), color var(--transition-duration);
+  border-radius: 6px;
+  margin: 0 8px;
+  font-weight: 500;
+}
+.akmmenu-link:hover {
+  background-color: var(--hover-overlay);
+}
+.akmmenu-link.active {
+  background-color: var(--hover-overlay);
+  color: var(--primary-color);
+}
+.akmmenu-link.active i {
+  color: var(--primary-color);
+}
+.akmmenu-link i {
+  margin-right: 10px;
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+  color: var(--secondary-color);
+}
+.akmmain-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+    transition: margin-left var(--transition-duration);
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--header-height));
+    box-sizing: border-box;
+}
+.akmmain-content-collapsed {
+  margin-left: 0;
+}
+.akmcard {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 1px 2px var(--shadow-color);
+  padding: 15px;
+  transition: background-color var(--transition-duration), box-shadow var(--transition-duration);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  margin-top: 20px;
+}
+.akmcard-body {
+  padding-top: 15px;
+}
+.akmcard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.akmcard-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-emphasis);
+  margin: 0;
+}
+.akmbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-duration);
+  border: none;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  color: #ffffff;
+  box-shadow: none;
+  text-decoration: none;
+}
+.akmbtn:hover {
+    filter: brightness(0.95);
+}
+.akmbtn i, .akmbtn svg {
+  margin-right: 6px;
+}
+.akmbtn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.akmbtn-primary { background-color: var(--primary-color); }
+.akmbtn-secondary { background-color: var(--secondary-color); }
+.akmbtn-success { background-color: var(--success-color); }
+.akmbtn-danger { background-color: var(--danger-color); }
+.akmbtn-warning { background-color: var(--warning-color); color: white; }
+.akmbtn-gold { background-color: #DAA520; color: #000; }
+.akmbtn-creator { background-color: var(--creator-color); color: white; }
+.akmbtn-outline-primary {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--primary-color) !important;
+  font-weight: 600;
+}
+.akmbtn-outline-primary:hover {
+  background-color: var(--hover-overlay);
+}
+.akmbtn-sm {
+  padding: 5px 10px;
+  font-size: 0.75rem;
+}
+.akmbtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(50%);
+}
+.akmbadge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 16px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+}
+.akmbadge-primary { background-color: rgba(24, 119, 242, 0.2); color: var(--primary-color); }
+.akmstock-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 16px;
+  text-align: center;
+}
+.akmstock-status.low {
+  background-color: rgba(224, 40, 64, 0.2);
+  color: var(--danger-color);
+  border: 1px solid rgba(224, 40, 64, 0.3);
+}
+.akmstock-status.normal {
+  background-color: rgba(49, 162, 76, 0.2);
+  color: var(--success-color);
+  border: 1px solid rgba(49, 162, 76, 0.3);
+}
+.akmstock-status.expiring {
+  background-color: rgba(247, 127, 0, 0.2);
+  color: var(--warning-color);
+  border: 1px solid rgba(247, 127, 0, 0.3);
+}
+.akmstats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.akmstat-card, .akmstat-card2 {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border-radius: var(--border-radius);
+  background-color: var(--card-bg);
+  box-shadow: 0 1px 2px var(--shadow-color);
+  border: 1px solid var(--border-color);
+}
+.akmstat-title {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+.akmstat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-emphasis);
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+.akmtable-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.akmtable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.akmtable th,
+.akmtable td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+  color: var(--text-color);
+  vertical-align: middle;
+}
+.akmtable td { color: var(--text-emphasis); }
+.akmtable th {
+  font-weight: 600;
+  color: var(--text-emphasis);
+  background-color: var(--card-bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.akmtable tbody tr:hover { background-color: var(--hover-overlay); }
+.akmtable td:last-child, .akmtable th:last-child {
+  text-align: right;
+}
+.akmrow {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+.akmcol-md-8, .akmcol-md-6, .akmcol-md-4, .akmcol-sm-12 {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  box-sizing: border-box;
+}
+@media (min-width: 768px) {
+  .akmcol-md-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+  .akmcol-md-6 { flex: 0 0 50%; max-width: 50%; }
+  .akmcol-md-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+}
+.akmorder-details {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 400px;
+}
+.akmorder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.akmorder-header h3 { margin: 0; color: var(--text-emphasis); }
+.akmorder-items {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  min-height: 150px;
+}
+.akmorder-summary {
+  border-top: 2px solid var(--border-color);
+  padding-top: 12px;
+}
+.akmsummary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+.akmsummary-label { font-weight: 600; }
+.akmsummary-value { font-weight: 700; color: var(--text-emphasis); }
+.akmdiscount-input {
+    width: 100px;
+    padding: 4px 8px;
+    text-align: right;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-emphasis);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+.akmdiscount-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+.akmgrand-total {
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+.akmgrand-total .akmsummary-label, .akmgrand-total .akmsummary-value {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+.akmcategory-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  white-space: nowrap;
+}
+.akmcategory-tabs::-webkit-scrollbar { display: none; }
+.akmcategory-tabs { -ms-overflow-style: none; scrollbar-width: none; }
+.akmcategory-tab {
+  padding: 6px 12px;
+  border-radius: 16px;
+  background-color: var(--bg-color);
+  color: var(--text-emphasis);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-duration);
+  border: 1px solid var(--border-color);
+  font-weight: 500;
+}
+.akmcategory-tab:hover {
+  background-color: var(--hover-overlay);
+}
+.akmcategory-tab.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+.akmproducts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+}
+.akmproduct-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius);
+  background: var(--card-bg);
+  box-shadow: 0 1px 2px var(--shadow-color);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+.akmproduct-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+.akmproduct-image {
+  height: 120px;
+  background-color: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-emphasis);
+  opacity: 0.8;
+}
+.akmproduct-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.akmproduct-image i { font-size: 2.5rem; }
+.akmproduct-details { padding: 10px; text-align: center; }
+.akmproduct-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
+  color: var(--text-emphasis);
+}
+.akmproduct-price {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.akmform-group { margin-bottom: 12px; }
+.akmform-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--text-emphasis);
+  font-size: 0.9rem;
+}
+textarea.akmform-control { resize: vertical; }
+.akmform-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-color);
+  color: var(--text-emphasis);
+  transition: border-color var(--transition-duration), box-shadow var(--transition-duration);
+  box-sizing: border-box;
+  font-size: 0.9rem;
+}
+body.light-mode .akmform-control {
+  background-color: #F0F2F5;
+}
+select.akmform-control {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231877F2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px 10px;
+  padding-right: 30px;
+}
+.akmform-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-color-light);
+}
+input[type="date"]::-webkit-calendar-picker-indicator, input[type="datetime-local"]::-webkit-calendar-picker-indicator { 
+    filter: invert(40%) sepia(88%) saturate(2559%) hue-rotate(231deg) brightness(100%) contrast(104%); 
+}
+body.dark-mode input[type="date"]::-webkit-calendar-picker-indicator, body.dark-mode input[type="datetime-local"]::-webkit-calendar-picker-indicator { 
+    filter: invert(1); 
+}
+.akm-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 15px;
+}
+.akm-modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.akm-modal-dialog {
+  width: 100%;
+  max-width: 450px;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  margin: auto;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 30px);
+}
+.akm-modal-header {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.akm-modal-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-emphasis);
+  margin: 0;
+}
+.akm-modal-close {
+  background: none; border: none;
+  font-size: 1.5rem; color: var(--text-color);
+  opacity: 0.8; cursor: pointer; padding: 4px; line-height: 1;
+}
+.akm-modal-close:hover { color: var(--text-emphasis); }
+.akm-modal-body {
+  padding: 15px;
+  overflow-y: auto;
+  color: var(--text-emphasis);
+}
+.akm-modal-footer {
+  padding: 12px 15px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+#report-modal .akm-modal-dialog { max-width: 800px; }
+.akmalert {
+  padding: 12px 15px;
+  border-radius: var(--border-radius);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.akmalert i { font-size: 1.1rem; }
+.akmalert-success { background-color: rgba(49, 162, 76, 0.15); color: var(--success-color); border-color: rgba(49, 162, 76, 0.3); }
+.akmalert-danger { background-color: rgba(224, 40, 64, 0.15); color: var(--danger-color); border-color: rgba(224, 40, 64, 0.3); }
+.akmalert-warning { background-color: rgba(247, 127, 0, 0.15); color: var(--warning-color); border-color: rgba(247, 127, 0, 0.3); }
+.akmempty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 15px;
+  text-align: center;
+  color: var(--text-emphasis);
+  opacity: 0.6;
+  min-height: 150px;
+}
+.akmempty-state i {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  color: var(--secondary-color);
+}
+.akmempty-state p {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+.akmfooter {
+  color: var(--text-color);
+  text-align: center;
+  padding: 15px;
+  font-size: 0.8rem;
+  margin-top: auto;
+}
+.akmbottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    background-color: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px var(--shadow-color)
+}
+.akmbottom-nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 0.7rem;
+    padding: 5px 0;
+    transition: color 0.3s;
+}
+.akmbottom-nav-link i {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+}
+.akmbottom-nav-link.active {
+    color: var(--primary-color);
+}
+@media (max-width: 991.98px) {
+  .akmsidebar { transform: translateX(-100%); z-index: 110; }
+  .akmsidebar.show { transform: translateX(0); }
+  .akmmain-content { margin-left: 0; }
+  .akmmain-content-collapsed { margin-left: 0; }
+  .akmmenu-toggle { display: block; }
+  body.akmsidebar-open::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 105;
+  }
+}
+@media (max-width: 767.98px) {
+  .akmstats-grid { grid-template-columns: 1fr; }
+  .akmorder-details { margin-top: 15px; min-height: auto; }
+  .akmproducts-grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, auto);
+    grid-auto-columns: 120px;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+    grid-template-columns: unset;
+    flex-wrap: unset;
+  }
+  .akmproducts-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .akmproducts-grid {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .akmproducts-grid .akmproduct-card {
+    width: auto; 
+  }
+  .akmcard { padding: 12px; }
+  .akmcard-title { font-size: 1rem; }
+  .akmbtn { padding: 6px 12px; font-size: 0.8rem; }
+  .akmproduct-image { height: 100px; }
+  .akmproduct-image i { font-size: 1.5rem; }
+  .akmtable th, .akmtable td { padding: 8px 10px; }
+  .akmrow .akmcol-md-6 { margin-bottom: 15px; }
+  .akmrow .akmcol-md-6:last-child { margin-bottom: 0; }
+  .akmfooter {
+    display: none;
+  }
+  .akmbottom-nav {
+    display: flex;
+  }
+  .akmmain-content {
+      padding-bottom: 70px;
+  }
+  .akmsidebar .hide-on-mobile {
+      display: none;
+  }
+}
+@media (max-width: 575.98px) {
+  .akmheader { padding: 0 10px; }
+  .akmlogo { font-size: 1rem; }
+  .akmlogo i { font-size: 1.2rem; }
+  .akmheader-actions { gap: 8px; }
+  .akm-modal-dialog { max-width: calc(100% - 30px); margin: 15px auto; }
+  #report-modal .akm-modal-dialog { max-width: calc(100% - 30px); }
+  .akmtable th, .akmtable td { padding: 6px 8px; font-size: 0.8rem; }
+  .akmtable .akmbtn { padding: 4px 6px; font-size: 0.7rem; }
+  .akmproducts-grid {
+    grid-auto-columns: 110px;
+  }
+  .akmproduct-image { height: 80px; }
+  .akmproduct-details { padding: 8px; }
+  .akmproduct-name, .akmproduct-price { font-size: 0.8rem; }
+  .akmstat-value { font-size: 1.3rem; }
+}
+@media (max-width: 480px) {
+  .akmstats-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  .akmstats-card2 {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}
+
+/* --- GOLD PREDICTION STYLES --- */
+#gold-prediction-result {
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px solid var(--gold-color);
+    border-radius: var(--border-radius);
+    background-color: var(--card-bg);
+    display: none;
+}
+#gold-prediction-result h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+}
+.gold-loading {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    color: var(--text-emphasis);
+}
+.gold-loading i {
+    color: var(--gold-color);
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+.gold-prediction-values {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.gold-value-box {
+    text-align: center;
+}
+.gold-value-label {
+    font-size: 0.8rem;
+    color: var(--text-color);
+}
+.gold-value-number {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+#gold-analysis-content {
+    line-height: 1.6;
+    font-size: 0.95rem;
+    color: var(--text-emphasis);
+}
+
+/* --- CONTENT CREATOR AI STYLES --- */
+#creator-result {
+    margin-top: 20px;
+    display: none;
+}
+.creator-output-box {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.creator-output-label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 8px;
+    display: block;
+    text-transform: uppercase;
+}
+.creator-output-text {
+    color: var(--text-emphasis);
+    line-height: 1.5;
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+}
+.creator-mode-tabs {
+    display: flex;
+    margin-bottom: 15px;
+    background: var(--bg-color);
+    padding: 5px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+.creator-mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: all 0.2s;
+}
+.creator-mode-tab input {
+    display: none;
+}
+.creator-mode-tab:has(input:checked) {
+    background-color: var(--creator-color);
+    color: white;
+}
+.contact-info {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+.contact-info p {
+    margin-bottom: 10px;
+    color: var(--text-emphasis);
+    font-weight: 500;
+}
+.contact-info i {
+    margin-right: 8px;
+    width: 20px;
+    text-align: center;
+}
+
+/* ... (Rest of existing CSS) ... */
+.akmfilter-controls {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.akmsearch-box {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  gap: 5px;
+}
+.akmsearch-box input {
+  width: 100%;
+  padding: 10px 15px 10px 35px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  color: var(--text-emphasis);
+  box-sizing: border-box;
+}
+.akmsearch-box > i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-color);
+  z-index: 2;
+}
+.barcode-scan-btn {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-emphasis);
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.barcode-scan-btn:hover {
+    background-color: var(--hover-overlay);
+}
+#product-category-filter, #stock-category-filter, #low-stock-category-filter, #expiring-soon-category-filter {
+  flex-basis: 200px;
+  flex-grow: 0;
+}
+.akmfilter-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.akmfilter-group label {
+    margin: 0 5px 0 0;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+.akmfilter-options {
+    flex-basis: 100%;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+.akmimage-upload-container {
+    margin-top: 10px;
+    position: relative;
+}
+#product-image-preview {
+    width: 100%;
+    height: 150px;
+    border-radius: var(--border-radius);
+    object-fit: cover;
+    border: 2px dashed var(--border-color);
+    cursor: pointer;
+}
+#remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.akmproduct-table-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.akmproduct-table-image:hover {
+    transform: scale(1.1);
+}
+#image-viewer-modal .akm-modal-dialog {
+    max-width: 80vw;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+#full-size-image {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: var(--border-radius);
+}
+.akmproduct-card.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.akmproduct-card.disabled .akmproduct-image {
+  background-color: rgba(224, 40, 64, 0.1);
+}
+.akmproduct-card.disabled .akmproduct-price {
+  color: var(--danger-color);
+}
+.akmout-of-stock {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(224, 40, 64, 0.8);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+#receipt-modal .akm-modal-dialog {
+    max-width: 400px;
+}
+#receipt-content {
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--text-emphasis);
+    background-color: var(--card-bg);
+}
+#receipt-content h4 {
+    text-align: center;
+    margin-top: 0;
+    color: var(--primary-color);
+}
+#receipt-content p {
+    font-size: 0.8rem;
+    margin: 2px 0;
+}
+#receipt-content .receipt-divider {
+    border-top: 1px dashed var(--text-color);
+    margin: 10px 0;
+}
+#receipt-content table {
+    width: 100%;
+    font-size: 0.8rem;
+}
+#receipt-content th, #receipt-content td {
+    padding: 2px;
+}
+#receipt-content .text-right {
+    text-align: right;
+}
+#receipt-content .total-section {
+    margin-top: 10px;
+    font-weight: bold;
+}
+#receipt-content .footer-text {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.7rem;
+}
+.akmstock-threshold-input {
+    max-width: 80px;
+    padding: 5px 8px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+.akmpagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+.akmpagination-controls button {
+    min-width: 35px;
+}
+#pagination-info, #stock-pagination-info, #category-pagination-info, #low-stock-pagination-info, #sale-history-pagination-info, #expiring-soon-pagination-info {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+#reset-confirm-input {
+    margin-top: 10px;
+}
+#notes-section {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--bg-color);
+}
+.cn-header {
+    padding: 10px 15px;
+    background: var(--card-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 2px var(--shadow-color);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 10;
+}
+.cn-header h1 {
+    color: var(--primary-color);
+    font-size: 20px;
+    font-weight: 600;
+    flex-grow: 1;
+    text-align: center;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    margin: 0;
+}
+.cn-header-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+}
+.cn-header-btn:hover { background-color: var(--hover-overlay); }
+.cn-header-btn svg { width: 24px; height: 24px; }
+#folder-list {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 20px;
+    align-content: start;
+    background: var(--bg-color);
+}
+.cn-folder {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+}
+.cn-folder:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    background: var(--hover-overlay);
+}
+.cn-folder-icon svg { width: 40px; height: 40px; color: var(--primary-color); margin-bottom: 10px; }
+.cn-folder-name { font-weight: 600; color: var(--text-emphasis); word-break: break-word; font-size: 14px; }
+.cn-folder-actions {
+    position: absolute;
+    top: 5px; right: 5px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 2px;
+}
+.cn-folder:hover .cn-folder-actions, .cn-folder.actions-visible .cn-folder-actions { opacity: 1; }
+.cn-folder-action-btn {
+    background: var(--bg-color); border:none; border-radius: 50%; width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--secondary-color);
+}
+.cn-folder-action-btn:hover { background-color: var(--hover-overlay); }
+.cn-folder-action-btn.delete:hover { background-color: var(--danger-color); color: white;}
+.cn-folder-action-btn svg { width: 16px; height: 16px; }
+#message-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-color);
+}
+.cn-chat-bubble-wrapper {
+    max-width: 80%;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    align-self: flex-end;
+    position: relative;
+}
+.cn-bubble-actions {
+    display: flex;
+    gap: 6px;
+    margin-right: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+.cn-chat-bubble-wrapper:hover .cn-bubble-actions, .cn-chat-bubble-wrapper.actions-visible .cn-bubble-actions {
+    opacity: 1;
+    pointer-events: auto;
+}
+.cn-action-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--secondary-color);
+}
+.cn-action-btn:hover { background-color: var(--hover-overlay); }
+.cn-action-btn.delete:hover { background-color: var(--danger-color); color: white;}
+.cn-action-btn svg { width: 16px; height: 16px; }
+.cn-chat-bubble {
+    padding: 10px 15px;
+    border-radius: 20px;
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 1px 2px var(--shadow-color);
+    word-wrap: break-word;
+    cursor: pointer;
+    min-width: 80px;
+}
+.cn-chat-bubble .timestamp { font-size: 11px; opacity: 0.8; text-align: right; margin-top: 5px; }
+.cn-chat-bubble img { max-width: 100%; border-radius: 15px; margin-top: 5px; display: block; cursor: pointer; }
+.cn-chat-bubble textarea {
+    width: 100%; border: none; background: transparent; color: white; resize: none; 
+    font-family: inherit; font-size: inherit; padding: 0; margin: 0;
+    outline: none;
+}
+#composer {
+    display: flex; padding: 10px; background: var(--card-bg);
+    border-top: 1px solid var(--border-color); align-items: flex-end;
+    transition: all 0.3s ease;
+}
+#message-input {
+    flex-grow: 1; padding: 10px 15px; border-radius: 20px;
+    border: 1px solid var(--border-color); background: var(--bg-color);
+    color: var(--text-emphasis);
+    margin: 0 5px; resize: none; font-family: inherit;
+    font-size: 16px;
+    max-height: 150px; 
+    overflow-y: auto;
+}
+#send-btn, #attach-btn, #expand-composer-btn {
+    width: 44px; height: 44px; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; border-radius: 50%; color: var(--primary-color);
+}
+#send-btn { color: white; background: var(--primary-color); }
+#send-btn svg, #attach-btn svg, #expand-composer-btn svg { width: 24px; height: 24px; }
+#composer.expanded { position: fixed; top: var(--header-height); left: 0; right: 0; bottom: 0; background: var(--card-bg); z-index: 110; flex-direction: column; padding: 0; }
+#composer.expanded #message-input { height: 100%; max-height: none; flex-grow: 1; border-radius: 0; border: none; font-size: 18px; padding: 20px; }
+#composer.expanded #composer-controls { width: 100%; padding: 10px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; align-items: center; }
+#composer:not(.expanded) #composer-controls { display: contents; } 
+.cn-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); z-index: 999; display: none; }
+.cn-overlay.visible { display: block; }
+.cn-view { display: none; flex-direction: column; height: 100%; }
+.cn-view.visible { display: flex; }
+.cn-footer-credit { text-align: center; font-size: 10px; color: var(--secondary-color); padding: 15px 0; }
+
+#image-viewer-view {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 1005;
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+}
+#image-viewer-view.visible { display: flex; }
+#viewer-img { max-width: 95vw; max-height: 80vh; border-radius: 8px; object-fit: contain; }
+#viewer-controls { padding: 20px; display: flex; gap: 15px; }
+#viewer-controls a, #viewer-controls button {
+    background: var(--card-bg); color: var(--text-emphasis); text-decoration: none;
+    padding: 10px 20px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+}
+#viewer-controls svg { width: 20px; height: 20px; }
+
+
+/* --- NEW ADVANCED IMAGE EDITOR STYLES --- */
+#z-note-image-editor-overlay { 
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+    background: rgba(0,0,0,0.6); z-index: 1045; 
+    display: none; backdrop-filter: blur(4px); 
+}
+#z-note-image-editor { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    transform: scale(0); background: #f0f0f0; border-radius: 0; 
+    z-index: 1050; display: flex; flex-direction: column; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+    transition: transform 0.3s ease, opacity 0.3s ease; opacity: 0; 
+}
+#z-note-image-editor.visible { transform: scale(1); opacity: 1; }
+#z-note-image-editor .editor-header { 
+    padding: 10px 15px; background: var(--card-bg); 
+    border-bottom: 1px solid var(--border-color); 
+    display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; 
+}
+#z-note-image-editor .editor-title { 
+    color: var(--text-emphasis); font-size: 1.1em; 
+    text-shadow: none; text-align: left; margin: 0;
+}
+#z-note-image-editor .editor-close-btn { 
+    font-size: 24px; color: var(--secondary-color); cursor: pointer; 
+    background: none; border: none; 
+}
+#z-note-image-editor .editor-close-btn svg { width: 28px; height: 28px; }
+#z-note-image-editor .editor-canvas-container { 
+    flex-grow: 1; position: relative; background-color: #333; 
+    overflow: hidden; touch-action: none; 
+}
+#z-note-image-editor #editorCanvas { position: absolute; top: 0; left: 0; cursor: grab; }
+#z-note-image-editor #editorCanvas:active { cursor: grabbing; }
+#z-note-image-editor #editorCanvas.doodle-mode { cursor: crosshair; }
+#z-note-image-editor .editor-toolbar { 
+    padding: 10px; background: var(--card-bg); 
+    border-top: 1px solid var(--border-color); display: flex; flex-wrap: wrap; 
+    gap: 10px; justify-content: center; align-items: center; flex-shrink: 0; 
+}
+#z-note-image-editor .editor-toolbar .color-palette { 
+    display: flex; align-items: center; gap: 8px; padding: 0 5px; 
+    border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); margin: 0 5px; 
+}
+#z-note-image-editor .editor-toolbar .color-swatch { 
+    width: 24px; height: 24px; border-radius: 50%; cursor: pointer; 
+    border: 2px solid transparent; transition: all 0.2s; 
+}
+#z-note-image-editor .editor-toolbar .color-swatch:hover { transform: scale(1.1); }
+#z-note-image-editor .editor-toolbar .color-swatch.selected { border-color: var(--primary-color); transform: scale(1.15); }
+#z-note-image-editor .editor-toolbar .color-swatch[data-color='white'] { border: 1px solid #ccc; }
+#z-note-image-editor #textEditorUI { 
+    position: absolute; border: 2px dashed var(--primary-color); 
+    display: none; cursor: move; z-index: 10; 
+}
+#z-note-image-editor #textEditorInput { 
+    width: 100%; height: 100%; padding: 0; margin: 0; 
+    background: rgba(255, 255, 255, 0.1); color: inherit; 
+    border: none; outline: none; resize: none; text-align: center; -webkit-text-fill-color: inherit; 
+}
+#z-note-image-editor .text-handle { 
+    position: absolute; width: 12px; height: 12px; 
+    background-color: var(--primary-color); border: 1px solid white; 
+    border-radius: 50%; z-index: 11; 
+}
+#z-note-image-editor #text-resize-handle { bottom: -6px; right: -6px; cursor: nwse-resize; }
+#z-note-image-editor #text-rotate-handle { top: -15px; left: calc(50% - 6px); cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16"><path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/><path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 11.857 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/></svg>') 8 8, auto; }
+#z-note-image-editor #text-delete-handle { top: -6px; right: -6px; cursor: pointer; background-color: var(--danger-color); }
+
+
+@media (max-width: 480px) {
+    .cn-chat-bubble-wrapper {
+        max-width: 85%;
+    }
+}
+/* Scanner Modal Styles */
+#scanner-modal video {
+    width: 100%;
+    max-height: 300px;
+    border-radius: var(--border-radius);
+}
+</style>
+</head> 
+<body class="dark-mode"> 
+  <header class="akmheader"> <button class="akmmenu-toggle"><i class="fas fa-bars"></i></button> 
+   <div class="akmlogo">
+    <span>Z Note</span> 
+   </div> 
+   <div class="akmheader-actions"> <button class="akmtheme-toggle"><i class="fas fa-moon"></i></button> 
+   </div> 
+  </header> 
+  <div class="akmapp-container"> 
+   <aside class="akmsidebar"> 
+    <ul class="akmsidebar-menu"> 
+     <li class="akmmenu-title" data-translate="menu_main">Main</li> 
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link active" data-section="notes"><i class="fas fa-sticky-note"></i><span data-translate="menu_notes">Notes</span></a></li> 
+     <li class="akmmenu-item hide-on-mobile"><a href="#" class="akmmenu-link" data-section="orders"><i class="fas fa-cash-register"></i><span data-translate="menu_new_sale">New Sale</span></a></li> 
+     
+     <li class="akmmenu-title" data-translate="menu_management">Management</li> 
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link" data-section="products"><i class="fas fa-box-open"></i><span data-translate="menu_products">Products</span></a></li> 
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link" data-section="categories"><i class="fas fa-tags"></i><span data-translate="menu_categories">Categories</span></a></li> 
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link" data-section="stock"><i class="fas fa-warehouse"></i><span data-translate="menu_stock">Stock</span></a></li> 
+     
+     <li class="akmmenu-item" id="expiring-soon-menu-item" style="display: none;"><a href="#" class="akmmenu-link" data-section="expiring-soon"><i class="fas fa-hourglass-half"></i><span data-translate="menu_expiring_soon">Expiring Soon</span></a></li> 
+     
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link" data-section="purchases"><i class="fas fa-truck-loading"></i><span data-translate="menu_purchases">Purchases</span></a></li> 
+     
+     <li class="akmmenu-title" data-translate="menu_reports">Reports & AI</li> 
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link" data-section="sale-history"><i class="fas fa-history"></i><span data-translate="menu_sale_history">Sale History</span></a></li>
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link" data-section="reports"><i class="fas fa-chart-bar"></i><span data-translate="menu_reports_link">Reports</span></a></li> 
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link" data-section="gold-prediction"><i class="fas fa-coins"></i><span data-translate="menu_gold_prediction">Gold Prediction</span></a></li>
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link" data-section="content-creator"><i class="fas fa-magic"></i><span data-translate="menu_content_creator">Content Creator</span></a></li>
+     
+     <li class="akmmenu-title">Setting</li>
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link" data-section="settings"><i class="fas fa-cog"></i><span data-translate="menu_settings">Settings</span></a></li>
+      
+     <li class="akmmenu-item"><a href="#" class="akmmenu-link" data-section="about"><i class="fas fa-info-circle"></i><span data-translate="menu_about">About</span></a></li> 
+     
+    </ul> 
+   </aside> 
+   <main class="akmmain-content"> 
+    <section id="notes-section" class="content-section">
+        <div id="folder-view" class="cn-view visible">
+            <div class="cn-header">
+                <button id="back-btn" class="cn-header-btn" style="visibility: hidden;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                </button>
+                <h1 id="folder-title">My Notes</h1>
+                <button id="create-folder-btn" class="cn-header-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                </button>
+            </div>
+            <div id="folder-list"></div>
+        </div>
+    
+        <div id="chat-view" class="cn-view">
+            <div class="cn-header">
+                <button id="close-chat-btn" class="cn-header-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                </button>
+                <h1 id="chat-title">Chat</h1>
+            </div>
+            <div id="message-list"></div>
+            <div id="composer">
+                <div id="composer-controls">
+                    <button id="expand-composer-btn" title="Expand Composer"></button>
+                    <input type="file" id="image-input" accept="image/*" style="display:none;">
+                    <button id="attach-btn" title="Attach Image">
+                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.122 2.122l7.81-7.81" /></svg>
+                    </button>
+                    <textarea id="message-input" placeholder="Start typing..." rows="1"></textarea>
+                    <button id="send-btn" title="Send">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor"><path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="orders-section" class="content-section" style="display: none;"> 
+     <div class="akmrow"> 
+      <div class="akmcol-md-8 akmcol-sm-12"> 
+       <div class="akmcard"> 
+        <div class="akmcard-header"> 
+         <h3 class="akmcard-title" style="font-size: 1rem;" data-translate="orders_add_items">Add Items</h3> 
+         <div class="akmsearch-box"> <i class="fas fa-search"></i> 
+          <input type="text" id="product-search" data-translate-placeholder="placeholder_search_products"> 
+          <button class="barcode-scan-btn" onclick="startScanner('product-search')"><i class="fas fa-barcode"></i></button>
+         </div> 
+        </div> 
+        <div class="akmcategory-tabs" id="category-tabs"> 
+        </div> 
+        <div id="products-grid" class="akmproducts-grid"> 
+         <div class="akmempty-state"> <i class="fas fa-chair"></i> 
+          <p data-translate="empty_select_table">Select an item to begin</p> 
+         </div> 
+        </div> 
+       </div> 
+      </div> 
+      <div class="akmcol-md-4 akmcol-sm-12"> 
+       <div class="akmcard akmorder-details"> 
+        <div class="akmorder-header"> 
+         <h3><span data-translate="label_sale">Sale</span> #<span id="current-order-id">-</span></h3> 
+         <div class="akmbtn-group"> <button class="akmbtn akmbtn-success" type="button" id="complete-order-btn" disabled><i class="fas fa-check"></i> <span data-translate="btn_complete">Complete</span></button> <button type="button" class="akmbtn akmbtn-danger" id="cancel-order-btn" disabled><i class="fas fa-times"></i> <span data-translate="btn_cancel">Cancel</span></button> 
+         </div> 
+        </div> 
+        <div class="akmorder-items"> 
+         <table class="akmtable"> 
+          <thead> 
+           <tr> 
+            <th data-translate="table_item">Item</th> 
+            <th data-translate="table_qty">Qty</th> 
+            <th data-translate="table_price">Price</th> 
+            <th data-translate="table_total">Total</th> 
+           </tr> 
+          </thead> 
+          <tbody id="order-items-list"> 
+           <tr> 
+            <td colspan="4"> 
+             <div class="akmempty-state" style="min-height: 50px; padding: 10px;"> 
+              <p style="font-size: 0.8rem; margin: 0;" data-translate="empty_no_items_added">No items added</p> 
+             </div> </td> 
+           </tr> 
+          </tbody> 
+         </table> 
+        </div> 
+        <div class="akmorder-summary"> 
+         <div class="akmsummary-row"> <span class="akmsummary-label" data-translate="label_subtotal">Subtotal:</span> <span class="akmsummary-value" id="order-subtotal">0 ကျပ်</span> 
+         </div> 
+         <div class="akmsummary-row"> 
+            <span class="akmsummary-label" data-translate="label_discount">Discount:</span> 
+            <input type="number" id="order-discount" class="akmdiscount-input" placeholder="0" min="0">
+         </div>
+         <div class="akmsummary-row"> <span class="akmsummary-label" id="order-tax-label">Tax (0%):</span> <span class="akmsummary-value" id="order-tax">0 ကျပ်</span> 
+         </div> 
+         <div class="akmsummary-row">
+            <span class="akmsummary-label" data-translate="label_payment_method">Payment Method:</span>
+            <select id="order-payment-method" class="akmform-control" style="width: auto; padding: 4px; font-size: 0.85rem;">
+                <option value="Cash">Cash</option>
+                <option value="KBZ Pay">KBZ Pay</option>
+            </select>
+         </div>
+         <div class="akmsummary-row akmgrand-total"> <span class="akmsummary-label" data-translate="label_grand_total">Grand Total:</span> <span class="akmsummary-value" id="order-total">0 ကျပ်</span> 
+         </div> 
+        </div> 
+       </div> 
+      </div> 
+     </div> 
+    </section> 
+    <section id="products-section" class="content-section" style="display: none;"> 
+     <div class="akmcard"> 
+      <div class="akmcard-header"> 
+       <h2 class="akmcard-title" data-translate="menu_products">Products</h2> 
+       <div class="akmbtn-group"> <button class="akmbtn akmbtn-primary" type="button" id="add-new-product-btn"><i class="fas fa-plus"></i> <span data-translate="btn_add_product">Add Product</span></button> 
+       </div> 
+      </div> 
+      <div class="akmfilter-controls"> 
+       <div class="akmsearch-box"> <i class="fas fa-search"></i> 
+        <input type="text" id="products-search-input" data-translate-placeholder="placeholder_search_products"> 
+       </div> <select id="product-category-filter" class="akmform-control"> <option value="all" data-translate="filter_all_categories">All Categories</option> </select> 
+      </div> 
+      <div class="akmtable-responsive"> 
+       <table class="akmtable"> 
+        <thead> 
+         <tr> 
+          <th data-translate="table_image">Image</th> 
+          <th data-translate="table_name">Name</th> 
+          <th data-translate="table_category">Category</th> 
+          <th data-translate="table_price">Price</th> 
+          <th data-translate="table_actions">Actions</th> 
+         </tr> 
+        </thead> 
+        <tbody id="products-table"> 
+        </tbody> 
+       </table> 
+      </div> 
+      <div class="akmpagination-controls" id="products-pagination" style="display: none;"> <button class="akmbtn akmbtn-secondary" id="prev-page-btn" disabled><i class="fas fa-chevron-left"></i></button> 
+       <span id="pagination-info">Page 1 of 1</span> <button class="akmbtn akmbtn-secondary" id="next-page-btn" disabled><i class="fas fa-chevron-right"></i></button> 
+      </div> 
+     </div> 
+    </section> 
+    <section id="categories-section" class="content-section" style="display: none;"> 
+     <div class="akmcard"> 
+      <div class="akmcard-header"> 
+       <h2 class="akmcard-title" data-translate="menu_categories">Categories</h2> 
+       <div class="akmbtn-group"> <button class="akmbtn akmbtn-primary" type="button" id="add-new-category-btn"><i class="fas fa-plus"></i> <span data-translate="btn_add_category">Add Category</span></button> 
+       </div> 
+      </div> 
+      <div class="akmtable-responsive"> 
+       <table class="akmtable"> 
+        <thead> 
+         <tr> 
+          <th data-translate="table_name">Name</th> 
+          <th data-translate="table_product_count">Product Count</th> 
+          <th data-translate="table_actions">Actions</th> 
+         </tr> 
+        </thead> 
+        <tbody id="categories-table"> 
+        </tbody> 
+       </table> 
+      </div> 
+      <div class="akmpagination-controls" id="categories-pagination" style="display: none;"> 
+       <button class="akmbtn akmbtn-secondary" id="prev-category-page-btn" disabled><i class="fas fa-chevron-left"></i></button> 
+       <span id="category-pagination-info">Page 1 of 1</span> 
+       <button class="akmbtn akmbtn-secondary" id="next-category-page-btn" disabled><i class="fas fa-chevron-right"></i></button> 
+      </div> 
+     </div> 
+    </section> 
+    
+    <section id="expiring-soon-section" class="content-section" style="display: none;">
+        <div class="akmcard">
+            <div class="akmcard-header">
+                <h2 class="akmcard-title" data-translate="title_expiring_soon_products">Expiring Soon Products</h2>
+            </div>
+            <div class="akmfilter-controls">
+                <div class="akmsearch-box"> <i class="fas fa-search"></i>
+                    <input type="text" id="expiring-soon-search-input" data-translate-placeholder="placeholder_search_products">
+                </div>
+                <select id="expiring-soon-category-filter" class="akmform-control">
+                    <option value="all" data-translate="filter_all_categories">All Categories</option>
+                </select>
+                <div class="akmform-group">
+                    <label for="expiring-days-filter" class="akmform-label" style="margin-bottom: 0;"><span data-translate="label_show_expiring_in">Show expiring in:</span></label>
+                    <input type="number" id="expiring-days-filter" class="akmform-control" value="7" min="1" style="width: 80px; padding: 8px;">
+                </div>
+            </div>
+            <div class="akmtable-responsive">
+                <table class="akmtable">
+                    <thead>
+                        <tr>
+                            <th data-translate="table_product_name">Product Name</th>
+                            <th data-translate="table_category">Category</th>
+                            <th data-translate="table_quantity">Quantity</th>
+                            <th data-translate="table_expiry_date">Expiry Date</th>
+                            <th data-translate="table_status">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expiring-soon-table">
+                    </tbody>
+                </table>
+            </div>
+            <div class="akmpagination-controls" id="expiring-soon-pagination" style="display: none;">
+                <button class="akmbtn akmbtn-secondary" id="expiring-soon-prev-page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                <span id="expiring-soon-pagination-info">Page 1 of 1</span>
+                <button class="akmbtn akmbtn-secondary" id="expiring-soon-next-page-btn" disabled><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+    <section id="purchases-section" class="content-section" style="display: none;"> 
+     <div class="akmcard"> 
+      <div class="akmcard-header"> 
+       <h2 class="akmcard-title" data-translate="menu_purchases">Purchases</h2> 
+       <div class="akmbtn-group">
+         <button class="akmbtn akmbtn-primary" type="button" id="add-new-purchase-btn"><i class="fas fa-plus"></i> <span data-translate="btn_add_purchase">Add Purchase</span></button> 
+         <button class="akmbtn akmbtn-success" type="button" id="export-purchases-csv-btn"><i class="fas fa-file-csv"></i> CSV</button> 
+         <button class="akmbtn akmbtn-danger" type="button" id="export-purchases-pdf-btn"><i class="fas fa-file-pdf"></i> PDF</button> 
+       </div> 
+      </div> 
+      <div class="akmfilter-controls"> 
+       <div class="akmfilter-group"> <label data-translate="label_filter_by">Filter by:</label> 
+        <div id="purchase-filter-type"> <input type="radio" id="filter-all-purchases" name="purchase-filter-type" value="all" checked> <label for="filter-all-purchases" data-translate="filter_all">All</label> <input type="radio" id="filter-date-purchases" name="purchase-filter-type" value="date"> <label for="filter-date-purchases" data-translate="filter_by_date">By Date</label> <input type="radio" id="filter-month-purchases" name="purchase-filter-type" value="month"> <label for="filter-month-purchases" data-translate="filter_by_month">By Month</label> 
+        </div> 
+       </div> 
+       <div id="purchase-date-filter-group" class="akmfilter-group" style="display: none;"> <label for="purchase-filter-date" data-translate="label_date">Date:</label> 
+        <input type="date" id="purchase-filter-date" class="akmform-control"> 
+       </div> 
+       <div id="purchase-month-filter-group" class="akmfilter-group" style="display: none;"> <label for="purchase-filter-month" data-translate="label_month">Month:</label> <select id="purchase-filter-month" class="akmform-control"></select> <label for="purchase-filter-year" data-translate="label_year">Year:</label> <select id="purchase-filter-year" class="akmform-control"></select> 
+       </div> 
+       <div class="akmbtn-group"> <button class="akmbtn akmbtn-primary" id="apply-purchase-filter-btn" data-translate="btn_apply_filter">Apply Filter</button> <button class="akmbtn akmbtn-secondary" id="clear-purchase-filter-btn" data-translate="btn_clear_filter">Clear Filter</button> 
+       </div> 
+      </div> 
+      <div class="akmtable-responsive"> 
+       <table class="akmtable"> 
+        <thead> 
+         <tr> 
+          <th data-translate="table_product_name">Product Name</th> 
+          <th data-translate="table_supplier">Supplier</th> 
+          <th data-translate="table_quantity">Quantity</th> 
+          <th data-translate="table_unit_cost">Unit Cost</th> 
+          <th data-translate="table_total_cost">Total Cost</th> 
+          <th data-translate="table_date">Date</th> 
+          <th data-translate="table_actions">Actions</th> 
+         </tr> 
+        </thead> 
+        <tbody id="purchases-table"> 
+         <tr> 
+          <td colspan="7"> 
+           <div class="akmempty-state"> <i class="fas fa-shopping-cart"></i> 
+            <p data-translate="empty_no_purchases">No purchases found</p> 
+           </div> </td> 
+         </tr> 
+        </tbody> 
+       </table> 
+      </div> 
+     </div> 
+    </section> 
+    <section id="stock-section" class="content-section" style="display: none;"> 
+     <div class="akmcard"> 
+      <div class="akmcard-header"> 
+       <h2 class="akmcard-title" data-translate="menu_stock">Stock Management</h2> 
+      </div> 
+      <div class="akmfilter-controls"> 
+       <div class="akmsearch-box"> <i class="fas fa-search"></i> 
+        <input type="text" id="stock-search-input" data-translate-placeholder="placeholder_search_stock"> 
+       </div> 
+       <select id="stock-category-filter" class="akmform-control"> <option value="all" data-translate="filter_all_categories">All Categories</option> </select> 
+       <div class="akmfilter-group">
+           <label><input type="checkbox" id="stock-low-filter"> Low Stock Only</label>
+       </div>
+      </div> 
+      <div class="akmtable-responsive"> 
+       <table class="akmtable"> 
+        <thead> 
+         <tr> 
+          <th data-translate="table_product">Product</th> 
+          <th data-translate="table_quantity">Quantity</th> 
+          <th data-translate="table_low_threshold">Low Threshold</th> 
+          <th data-translate="table_status">Status</th> 
+         </tr> 
+        </thead> 
+        <tbody id="stock-table"> 
+         <tr> 
+          <td colspan="4"> 
+           <div class="akmempty-state"> <i class="fas fa-warehouse"></i> 
+            <p data-translate="empty_no_stock">No stock records found</p> 
+           </div> </td> 
+         </tr> 
+        </tbody> 
+       </table> 
+      </div> 
+      <div class="akmpagination-controls" id="stock-pagination" style="display: none;"> 
+          <button class="akmbtn akmbtn-secondary" id="stock-prev-page-btn" disabled><i class="fas fa-chevron-left"></i></button> 
+          <span id="stock-pagination-info">Page 1 of 1</span> 
+          <button class="akmbtn akmbtn-secondary" id="stock-next-page-btn" disabled><i class="fas fa-chevron-right"></i></button> 
+      </div>
+     </div> 
+    </section> 
+    <section id="sale-history-section" class="content-section" style="display: none;">
+        <div class="akmcard">
+            <div class="akmcard-header">
+                <h2 class="akmcard-title" data-translate="menu_sale_history">Sale History</h2>
+                <div class="akmbtn-group">
+                    <button class="akmbtn akmbtn-success" type="button" id="export-sales-csv-btn"><i class="fas fa-file-csv"></i> <span data-translate="btn_export_csv_short">CSV</span></button>
+                    <button class="akmbtn akmbtn-danger" type="button" id="export-sales-pdf-btn"><i class="fas fa-file-pdf"></i> <span data-translate="btn_export_pdf_short">PDF</span></button>
+                </div>
+            </div>
+            <div class="akmfilter-controls">
+                <div class="akmfilter-group">
+                    <label data-translate="label_filter_by">Filter by:</label>
+                    <div id="sale-history-filter-type">
+                        <input type="radio" id="filter-all-sales" name="sale-filter-type" value="all" checked>
+                        <label for="filter-all-sales" data-translate="filter_all">All</label>
+                        <input type="radio" id="filter-date-sales" name="sale-filter-type" value="date">
+                        <label for="filter-date-sales" data-translate="filter_by_date">By Date</label>
+                        <input type="radio" id="filter-month-sales" name="sale-filter-type" value="month">
+                        <label for="filter-month-sales" data-translate="filter_by_month">By Month</label>
+                    </div>
+                </div>
+                <div id="sale-history-date-filter-group" class="akmfilter-group" style="display: none;">
+                    <label for="sale-history-filter-date" data-translate="label_date">Date:</label>
+                    <input type="date" id="sale-history-filter-date" class="akmform-control">
+                </div>
+                <div id="sale-history-month-filter-group" class="akmfilter-group" style="display: none;">
+                    <label for="sale-history-filter-month" data-translate="label_month">Month:</label>
+                    <select id="sale-history-filter-month" class="akmform-control"></select>
+                    <label for="sale-history-filter-year" data-translate="label_year">Year:</label>
+                    <select id="sale-history-filter-year" class="akmform-control"></select>
+                </div>
+                <div class="akmbtn-group">
+                    <button class="akmbtn akmbtn-primary" id="apply-sale-history-filter-btn" data-translate="btn_apply_filter">Apply Filter</button>
+                    <button class="akmbtn akmbtn-secondary" id="clear-sale-history-filter-btn" data-translate="btn_clear_filter">Clear Filter</button>
+                </div>
+            </div>
+            <div class="akmtable-responsive">
+                <table class="akmtable">
+                    <thead>
+                        <tr>
+                            <th data-translate="table_sale_id">Sale ID</th>
+                            <th data-translate="table_date">Date</th>
+                            <th data-translate="table_items_count">Items</th>
+                            <th data-translate="label_discount">Discount</th>
+                            <th data-translate="table_total">Total</th>
+                            <th data-translate="table_actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sale-history-table">
+                    </tbody>
+                </table>
+            </div>
+            <div class="akmpagination-controls" id="sale-history-pagination" style="display: none;">
+                <button class="akmbtn akmbtn-secondary" id="sale-history-prev-page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                <span id="sale-history-pagination-info">Page 1 of 1</span>
+                <button class="akmbtn akmbtn-secondary" id="sale-history-next-page-btn" disabled><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="gold-prediction-section" class="content-section" style="display: none;">
+        <div class="akmcard">
+            <div class="akmcard-header">
+                <h2 class="akmcard-title"><i class="fas fa-coins" style="color: var(--gold-color);"></i> Gold Price Prediction AI</h2>
+            </div>
+            <div class="akmcard-body">
+                <div class="akmrow">
+                    <div class="akmcol-md-6 akmcol-sm-12">
+                         <div class="akmform-group">
+                             <label class="akmform-label">လက်ရှိရွှေဈေး (ကျပ်သား):</label>
+                             <input type="number" id="gold-price-input" class="akmform-control" placeholder="ဥပမာ - 3500000">
+                         </div>
+                         <div class="akmform-group">
+                             <label class="akmform-label">ဒေါ်လာပေါက်ဈေး (ကျပ်):</label>
+                             <input type="number" id="dollar-rate-input" class="akmform-control" placeholder="ဥပမာ - 4500">
+                         </div>
+                         <h4 style="margin-top: 20px; color: var(--text-emphasis);">နိုင်ငံတကာထိပ်တန်းသတင်း (Optional - 3ခု)</h4>
+                         <div class="akmform-group">
+                             <input type="text" class="akmform-control intl-news-input" placeholder="နိုင်ငံတကာသတင်း ၁">
+                         </div>
+                         <div class="akmform-group">
+                             <input type="text" class="akmform-control intl-news-input" placeholder="နိုင်ငံတကာသတင်း ၂">
+                         </div>
+                         <div class="akmform-group">
+                             <input type="text" class="akmform-control intl-news-input" placeholder="နိုင်ငံတကာသတင်း ၃">
+                         </div>
+                    </div>
+                    <div class="akmcol-md-6 akmcol-sm-12">
+                         <h4 style="margin-top: 0; color: var(--text-emphasis);">မြန်မာပြည်တွင်းထူးခြားထိပ်တန်းသတင်း (Optional - 5ခု)</h4>
+                         <div class="akmform-group">
+                             <input type="text" class="akmform-control local-news-input" placeholder="ပြည်တွင်းသတင်း ၁">
+                         </div>
+                         <div class="akmform-group">
+                             <input type="text" class="akmform-control local-news-input" placeholder="ပြည်တွင်းသတင်း ၂">
+                         </div>
+                         <div class="akmform-group">
+                             <input type="text" class="akmform-control local-news-input" placeholder="ပြည်တွင်းသတင်း ၃">
+                         </div>
+                         <div class="akmform-group">
+                             <input type="text" class="akmform-control local-news-input" placeholder="ပြည်တွင်းသတင်း ၄">
+                         </div>
+                         <div class="akmform-group">
+                             <input type="text" class="akmform-control local-news-input" placeholder="ပြည်တွင်းသတင်း ၅">
+                         </div>
+                         <button id="analyze-gold-btn" class="akmbtn akmbtn-gold" style="width: 100%; margin-top: 10px;">
+                             <i class="fas fa-magic"></i> Analyze & Predict
+                         </button>
+                    </div>
+                </div>
+
+                <div id="gold-loading" class="gold-loading">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                    <p>AI is analyzing market trends...</p>
+                </div>
+
+                <div id="gold-prediction-result">
+                    <h3><i class="fas fa-chart-line"></i> Market Analysis</h3>
+                    <div class="gold-prediction-values">
+                        <div class="gold-value-box">
+                            <div class="gold-value-label">Low Estimate</div>
+                            <div class="gold-value-number" id="pred-low">-</div>
+                        </div>
+                         <div class="gold-value-box">
+                            <div class="gold-value-label">Average Estimate</div>
+                            <div class="gold-value-number" id="pred-avg">-</div>
+                        </div>
+                         <div class="gold-value-box">
+                            <div class="gold-value-label">High Estimate</div>
+                            <div class="gold-value-number" id="pred-high">-</div>
+                        </div>
+                    </div>
+                    <div id="gold-analysis-content"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="content-creator-section" class="content-section" style="display: none;">
+        <div class="akmcard">
+            <div class="akmcard-header">
+                <h2 class="akmcard-title"><i class="fas fa-magic" style="color: var(--creator-color);"></i> Content Creator AI</h2>
+            </div>
+            <div class="akmcard-body">
+                <div class="akmrow">
+                    <div class="akmcol-md-6 akmcol-sm-12">
+                        <!-- Mode Toggle -->
+                         <div class="creator-mode-tabs">
+                             <label class="creator-mode-tab">
+                                 <input type="radio" name="creator-mode" value="caption" checked>
+                                 Social Caption (အတို)
+                             </label>
+                             <label class="creator-mode-tab">
+                                 <input type="radio" name="creator-mode" value="content">
+                                 Long Form Content (အရှည်)
+                             </label>
+                         </div>
+
+                         <div class="akmform-group">
+                             <label class="akmform-label" id="creator-input-label">Caption / Description</label>
+                             <textarea id="creator-input-caption" class="akmform-control" rows="4" placeholder="Enter your photo caption or topic description here..."></textarea>
+                         </div>
+                         <div class="akmrow">
+                             <div class="akmcol-md-6">
+                                 <div class="akmform-group">
+                                     <label class="akmform-label" id="creator-type-label">Platform</label>
+                                     <!-- Platform Select (For Caption Mode) -->
+                                     <select id="creator-platform" class="akmform-control">
+                                         <option value="Facebook">Facebook</option>
+                                         <option value="Instagram">Instagram</option>
+                                         <option value="TikTok">TikTok</option>
+                                         <option value="Twitter">Twitter/X</option>
+                                         <option value="LinkedIn">LinkedIn</option>
+                                     </select>
+                                     <!-- Content Type Select (For Content Mode - Initially Hidden) -->
+                                     <select id="creator-content-type" class="akmform-control" style="display: none;">
+                                         <option value="Blog Post">Blog Post</option>
+                                         <option value="Article">Article</option>
+                                         <option value="Email Newsletter">Email Newsletter</option>
+                                         <option value="Story">Story / Fiction</option>
+                                         <option value="Poem">Poem</option>
+                                         <option value="Product Review">Product Review</option>
+                                     </select>
+                                 </div>
+                             </div>
+                             <div class="akmcol-md-6">
+                                 <div class="akmform-group">
+                                     <label class="akmform-label">Tone</label>
+                                     <select id="creator-tone" class="akmform-control">
+                                         <option value="Casual">Casual</option>
+                                         <option value="Professional">Professional</option>
+                                         <option value="Funny">Funny</option>
+                                         <option value="Inspirational">Inspirational</option>
+                                         <option value="Promotional">Promotional</option>
+                                         <option value="Formal">Formal</option>
+                                         <option value="Friendly">Friendly</option>
+                                     </select>
+                                 </div>
+                             </div>
+                         </div>
+                         <button id="generate-content-btn" class="akmbtn akmbtn-creator" style="width: 100%; margin-top: 10px;">
+                             <i class="fas fa-wand-magic-sparkles"></i> Generate Magic
+                         </button>
+                    </div>
+                    <div class="akmcol-md-6 akmcol-sm-12">
+                         <div id="creator-loading" class="gold-loading">
+                            <i class="fas fa-circle-notch fa-spin" style="color: var(--creator-color);"></i>
+                            <p>Creating content...</p>
+                        </div>
+                        <div id="creator-result">
+                            <div class="creator-output-box">
+                                <span class="creator-output-label" id="creator-output-title">Enhanced Content</span>
+                                <div id="creator-output-caption" class="creator-output-text"></div>
+                                <button class="akmbtn akmbtn-sm akmbtn-secondary copy-btn" data-target="creator-output-caption" style="margin-top: 5px;"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <div class="creator-output-box" id="creator-prompt-box">
+                                <span class="creator-output-label">AI Image Prompt (English)</span>
+                                <div id="creator-output-prompt" class="creator-output-text"></div>
+                                <button class="akmbtn akmbtn-sm akmbtn-secondary copy-btn" data-target="creator-output-prompt" style="margin-top: 5px;"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="settings-section" class="content-section" style="display: none;"> 
+     <div class="akmcard"> 
+      <div class="akmcard-header"> 
+       <h2 class="akmcard-title" data-translate="menu_settings">Settings</h2> 
+      </div> 
+      <div class="akmcard-body"> 
+       <div class="akmform-group"> <label for="tax-rate-setting" class="akmform-label" data-translate="label_tax_rate">Tax Rate (%)</label> 
+        <input type="number" id="tax-rate-setting" class="akmform-control" min="0" step="0.1"> 
+       </div> 
+       <div class="akmform-group"> <label for="receipt-title-setting" class="akmform-label" data-translate="label_receipt_title">Receipt Title</label> 
+        <input type="text" id="receipt-title-setting" class="akmform-control" placeholder="ကောင်းစံ POS"> 
+       </div> 
+       <div class="akmform-group"> <label for="language-select" class="akmform-label" data-translate="label_language">Language</label> <select id="language-select" class="akmform-control"> <option value="en">English</option> <option value="mm">မြန်မာ</option> </select> 
+       </div> 
+       <div class="akmform-group">
+        <label for="app-mode-select" class="akmform-label" data-translate="label_app_mode">Application Mode</label>
+        <select id="app-mode-select" class="akmform-control">
+            <option value="retail" data-translate="mode_retail">Retail Mode</option>
+            <option value="bakery" data-translate="mode_bakery">Bakery/Cafe Mode</option>
+        </select>
+       </div>
+       <div class="akmform-group"> <button class="akmbtn akmbtn-primary" type="button" id="save-settings-btn"><i class="fas fa-save"></i> <span data-translate="btn_save_settings">Save Settings</span></button> 
+       </div> 
+       <hr> 
+       <div class="data-management" style="margin-top: 20px;"> 
+        <h4 data-translate="title_data_management">Data Management</h4> 
+        <div class="akmform-group">
+            <label class="akmform-label" data-translate="label_delete_by_month">Delete Data by Month:</label>
+            <div class="akmfilter-group">
+                <select id="delete-data-month" class="akmform-control"></select>
+                <select id="delete-data-year" class="akmform-control"></select>
+                <button class="akmbtn akmbtn-warning" type="button" id="delete-data-by-month-btn"><i class="fas fa-trash"></i> <span data-translate="btn_delete_data_month">Delete Data for Month</span></button>
+            </div>
+        </div>
+        <div class="akmform-group" style="margin-top: 20px;">
+            <button class="akmbtn akmbtn-danger" type="button" id="reset-data-btn"><i class="fas fa-exclamation-triangle"></i> <span data-translate="btn_reset_all_data">Reset All Data</span></button> 
+        </div>
+        <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 10px;" data-translate="warning_reset_data">Warning: Resetting data will delete all products, sales, and purchases and cannot be undone.</p> 
+       </div> 
+      </div> 
+     </div> 
+    </section> 
+    <section id="reports-section" class="content-section" style="display: none;"> 
+     <div class="akmcard"> 
+      <div class="akmcard-header"> 
+       <h2 class="akmcard-title" data-translate="title_generate_reports">Generate Reports</h2> 
+      </div> 
+      <div class="akmcard-body"> 
+       <div class="akmrow"> 
+        <div class="akmcol-md-6"> 
+         <div class="akmcard" style="margin-top:0;"> 
+          <div class="akmcard-header"> 
+           <h3 class="akmcard-title" data-translate="title_daily_report">Daily Report</h3> 
+          </div> 
+          <div class="akmcard-body"> 
+           <div class="akmform-group"> <label for="report-date" class="akmform-label" data-translate="label_select_date">Select Date:</label> 
+            <input type="date" id="report-date" class="akmform-control"> 
+           </div> <button class="akmbtn akmbtn-primary" type="button" id="generate-report-btn"><i class="fas fa-file-alt"></i> <span data-translate="btn_generate_daily_report">Generate Daily Report</span></button> 
+          </div> 
+         </div> 
+        </div> 
+        <div class="akmcol-md-6"> 
+         <div class="akmcard" style="margin-top:0;"> 
+          <div class="akmcard-header"> 
+           <h3 class="akmcard-title" data-translate="title_monthly_report">Monthly Report</h3> 
+          </div> 
+          <div class="akmcard-body"> 
+           <div class="akmform-group"> <label for="report-month" class="akmform-label" data-translate="label_select_month">Select Month:</label> <select id="report-month" class="akmform-control"></select> 
+           </div> 
+           <div class="akmform-group"> <label for="report-year" class="akmform-label" data-translate="label_select_year">Select Year:</label> <select id="report-year" class="akmform-control"></select> 
+           </div> <button class="akmbtn akmbtn-primary" type="button" id="generate-monthly-report-btn"><i class="fas fa-file-alt"></i> <span data-translate="btn_generate_monthly_report">Generate Monthly Report</span></button> 
+          </div> 
+         </div> 
+        </div> 
+       </div> 
+      </div> 
+     </div> 
+    </section> 
+    <section id="about-section" class="content-section" style="display: none;"> 
+     <div class="akmcard"> 
+      <div class="akmcard-header"> 
+       <h2 class="akmcard-title" data-translate="menu_about">About</h2> 
+      </div> 
+      <div class="akmcard-body about-content"> 
+       <h3>Z note</h3> 
+       <p>Alpha test</p> 
+       <p data-translate="about_description">A streamlined and efficient Point of Sale (POS) system built for modern retail businesses and content creators. Manage your inventory, process sales, and track your performance with ease, plus create various content ideas.</p> 
+       <h3 data-translate="about_features_title">Features</h3> 
+       <ul data-translate="about_features_list" data-translate-type="list"> 
+        <li>Fast and intuitive sales processing with discount application</li>
+        <li>Dual-mode operation: Standard Retail and Bakery/Cafe with expiry tracking</li>
+        <li>Comprehensive product and category management with image support</li>
+        <li>Real-time inventory tracking with low-stock alerts</li>
+        <li>Detailed purchase tracking with flexible cost input (Unit or Total)</li>
+        <li>In-depth sale history with filtering and export capabilities (PDF/CSV)</li>
+        <li>Customizable settings including tax rates and receipt branding</li>
+        <li>Gold Price Prediction powered by AI</li>
+       </ul> 
+       
+       <div class="contact-info">
+           <h3>Developer</h3> 
+           <p> Aung Kaung Myat (Founder of Amandalori UI) </p>
+           <p><i class="fas fa-map-marker-alt"></i> Location: Mawlamyaing</p>
+           <a href="https://t.me/ZNoteApp" target="_blank" class="akmbtn akmbtn-primary" style="margin-top: 10px;">
+               <i class="fab fa-telegram"></i> Contact on Telegram
+           </a>
+       </div>
+      </div> 
+     </div> 
+    </section> 
+   </main> 
+  </div> 
+  <br> 
+  <footer class="akmfooter"> 
+   <p>Aung Kaung Myat production</p> 
+  </footer> 
+
+  <nav class="akmbottom-nav">
+      <a href="#" class="akmbottom-nav-link active" data-section="notes">
+          <i class="fas fa-sticky-note"></i>
+      </a>
+      <a href="#" class="akmbottom-nav-link" data-section="orders">
+          <i class="fas fa-cash-register"></i>
+      </a>
+      <a href="#" class="akmbottom-nav-link" data-section="gold-prediction">
+          <i class="fas fa-coins"></i>
+      </a>
+      <a href="#" class="akmbottom-nav-link" data-section="content-creator">
+          <i class="fas fa-magic"></i>
+      </a>
+  </nav>
+
+    <div class="cn-overlay" id="cn-overlay"></div>
+    <!-- (Existing Modals...) -->
+    <div class="akm-modal" id="folder-modal">
+        <div class="akm-modal-dialog">
+            <div class="akm-modal-content">
+                <div class="akm-modal-header">
+                    <h3 class="akm-modal-title" id="folder-modal-title">Create Folder</h3>
+                    <button type="button" class="akm-modal-close" data-target="folder-modal">×</button>
+                </div>
+                <div class="akm-modal-body">
+                    <input type="text" id="folder-name-input" class="akmform-control" placeholder="Folder Name">
+                </div>
+                <div class="akm-modal-footer">
+                    <button id="folder-cancel-btn" class="akmbtn akmbtn-secondary" data-target="folder-modal">Cancel</button>
+                    <button id="folder-confirm-btn" class="akmbtn akmbtn-primary">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="akm-modal" id="confirm-dialog">
+        <div class="akm-modal-dialog">
+            <div class="akm-modal-content">
+                 <div class="akm-modal-header">
+                    <h3 class="akm-modal-title" id="confirm-title">Are you sure?</h3>
+                    <button type="button" class="akm-modal-close" data-target="confirm-dialog">×</button>
+                </div>
+                <div class="akm-modal-body">
+                    <p id="confirm-message" style="text-align: center; margin-bottom: 20px;">ဖျက်မှာ သေချာလား?</p>
+                </div>
+                <div class="akm-modal-footer">
+                    <button id="confirm-cancel-btn" class="akmbtn akmbtn-secondary" data-target="confirm-dialog">မလုပ်တော့ပါ</button>
+                    <button id="confirm-delete-btn" class="akmbtn akmbtn-danger">ဖျက်မည်</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <div id="z-note-image-editor-overlay"></div>
+    <div id="z-note-image-editor">
+        <div class="editor-header">
+            <h2 class="editor-title">Image Editor</h2>
+            <button id="editorCloseBtn" class="editor-close-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+        </div>
+        <div class="editor-canvas-container">
+            <canvas id="editorCanvas"></canvas>
+            <div id="textEditorUI">
+                <textarea id="textEditorInput"></textarea>
+                <div id="text-resize-handle" class="text-handle"></div>
+                <div id="text-rotate-handle" class="text-handle"></div>
+                <div id="text-delete-handle" class="text-handle"></div>
+            </div>
+        </div>
+        <div class="editor-toolbar">
+            <button id="addTextBtn" class="akmbtn akmbtn-outline-primary">Enter Text</button>
+            <button id="doodleBtn" class="akmbtn akmbtn-outline-primary">Doodle</button>
+            <div id="colorPalette" class="color-palette">
+                <div class="color-swatch selected" data-color="red" style="background-color: red;" title="Red"></div>
+                <div class="color-swatch" data-color="blue" style="background-color: blue;" title="Blue"></div>
+                <div class="color-swatch" data-color="yellow" style="background-color: yellow;" title="Yellow"></div>
+                <div class="color-swatch" data-color="white" style="background-color: white;" title="White"></div>
+            </div>
+            <button id="saveCanvasBtn" class="akmbtn akmbtn-primary">Save Changes</button>
+            <button id="deleteImageBtn" class="akmbtn akmbtn-danger">Delete Image</button>
+        </div>
+    </div>
+   
+
+
+    <div id="image-viewer-view">
+        <img id="viewer-img" src="" alt="Full size view">
+        <div id="viewer-controls">
+            <a id="viewer-download-btn" href="#" download="note-image.png">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                Save
+            </a>
+            <button id="viewer-close-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                Close
+            </button>
+        </div>
+    </div>
+
+    
+    <div class="akm-modal" id="scanner-modal">
+        <div class="akm-modal-dialog">
+            <div class="akm-modal-header">
+                <h3 class="akm-modal-title">Barcode Scanner</h3>
+                <button type="button" class="akm-modal-close">×</button>
+            </div>
+            <div class="akm-modal-body">
+                <div id="scanner-reader"></div>
+            </div>
+            <div class="akm-modal-footer">
+                <button type="button" class="akmbtn akmbtn-secondary akm-modal-close">Close</button>
+            </div>
+        </div>
+    </div>
+
+  <div class="akm-modal" id="product-modal"> 
+   <div class="akm-modal-dialog"> 
+    <div class="akm-modal-content"> 
+     <div class="akm-modal-header"> 
+      <h3 class="akm-modal-title" id="product-modal-title" data-translate="modal_add_product_title">Add Product</h3> <button type="button" class="akm-modal-close">×</button> 
+     </div> 
+     <div class="akm-modal-body"> 
+      <form id="product-form"> 
+       <input type="hidden" id="product-id"> 
+       <div class="akmform-group"> <label for="product-name" class="akmform-label" data-translate="label_product_name">Product Name</label> 
+        <input type="text" id="product-name" class="akmform-control" required> 
+       </div> 
+       <div class="akmform-group"> 
+           <label for="product-barcode" class="akmform-label">Barcode</label> 
+           <div style="display: flex; gap: 5px;">
+               <input type="text" id="product-barcode" class="akmform-control" placeholder="Scan or type barcode">
+               <button type="button" class="barcode-scan-btn" onclick="startScanner('product-barcode')"><i class="fas fa-barcode"></i></button>
+           </div>
+       </div> 
+       <div class="akmform-group"> <label for="product-category" class="akmform-label" data-translate="label_category">Category</label> <select id="product-category" class="akmform-control" required> <option value="" data-translate="placeholder_select_category">Select Category</option> </select> 
+       </div> 
+       <div class="akmform-group"> <label for="product-price" class="akmform-label" data-translate="label_price">Price</label> 
+        <input type="number" id="product-price" class="akmform-control" min="0" step="100" required> 
+       </div> 
+       <div class="akmform-group"> <label for="product-image-upload" class="akmform-label" data-translate="label_product_image">Product Image</label> 
+        <input type="file" id="product-image-upload" class="akmform-control" accept="image/"> 
+        <div class="akmimage-upload-container"> 
+         <img id="product-image-preview" src="" alt="Image Preview" style="display: none;"> <button type="button" id="remove-image-btn" class="akmbtn akmbtn-sm akmbtn-danger" style="display: none;"><i class="fas fa-times"></i></button> 
+        </div> 
+       </div> 
+      </form> 
+     </div> 
+     <div class="akm-modal-footer"> <button type="button" class="akmbtn akmbtn-secondary akm-modal-close"><span data-translate="btn_cancel">Cancel</span></button> <button type="button" class="akmbtn akmbtn-danger" id="delete-product-btn" style="display: none;"><i class="fas fa-trash"></i> <span data-translate="btn_delete">Delete</span></button> <button type="button" class="akmbtn akmbtn-primary" id="save-product-btn"><span data-translate="btn_save_product">Save Product</span></button> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+  <div class="akm-modal" id="category-modal"> 
+   <div class="akm-modal-dialog"> 
+    <div class="akm-modal-content"> 
+     <div class="akm-modal-header"> 
+      <h3 class="akm-modal-title" id="category-modal-title" data-translate="modal_add_category_title">Add Category</h3> <button type="button" class="akm-modal-close">×</button> 
+     </div> 
+     <div class="akm-modal-body"> 
+      <form id="category-form"> 
+       <input type="hidden" id="category-id"> 
+       <div class="akmform-group"> <label for="category-name" class="akmform-label" data-translate="label_category_name">Category Name</label> 
+        <input type="text" id="category-name" class="akmform-control" required> 
+       </div> 
+      </form> 
+     </div> 
+     <div class="akm-modal-footer"> <button type="button" class="akmbtn akmbtn-secondary akm-modal-close"><span data-translate="btn_cancel">Cancel</span></button> <button type="button" class="akmbtn akmbtn-danger" id="delete-category-btn" style="display: none;"><i class="fas fa-trash"></i> <span data-translate="btn_delete">Delete</span></button> <button type="button" class="akmbtn akmbtn-primary" id="save-category-btn"><span data-translate="btn_save">Save</span></button> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+  <div class="akm-modal" id="purchase-modal"> 
+   <div class="akm-modal-dialog"> 
+    <div class="akm-modal-content"> 
+     <div class="akm-modal-header"> 
+      <h3 class="akm-modal-title" id="purchase-modal-title" data-translate="modal_add_purchase_title">Add Purchase / Stock</h3> <button type="button" class="akm-modal-close">×</button> 
+     </div> 
+     <div class="akm-modal-body"> 
+      <form id="purchase-form"> 
+       <input type="hidden" id="purchase-id"> 
+       <div class="akmform-group"> <label for="purchase-category" class="akmform-label" data-translate="label_category">Category</label> <select id="purchase-category" class="akmform-control" required> <option value="" data-translate="placeholder_select_category_first">Select Category First</option> </select> 
+       </div> 
+       <div class="akmform-group"> <label for="purchase-product" class="akmform-label" data-translate="label_product">Product</label> <select id="purchase-product" class="akmform-control" required disabled> <option value="" data-translate="placeholder_select_product">Select a Product</option> </select> 
+       </div> 
+       <div class="akmform-group"> <label for="purchase-supplier" class="akmform-label" data-translate="label_supplier_optional">Supplier (Optional)</label> 
+        <input type="text" id="purchase-supplier" class="akmform-control"> 
+       </div> 
+       <div class="akmform-group"> <label for="purchase-quantity" class="akmform-label" data-translate="label_quantity">Quantity</label> 
+        <input type="number" id="purchase-quantity" class="akmform-control" min="1" required> 
+       </div> 
+       <div class="akmrow">
+         <div class="akmcol-md-6">
+            <div class="akmform-group"> <label for="purchase-unit-cost" class="akmform-label" data-translate="label_unit_cost">Unit Cost</label> 
+                <input type="number" id="purchase-unit-cost" class="akmform-control" min="0" step="100"> 
+            </div> 
+         </div>
+         <div class="akmcol-md-6">
+            <div class="akmform-group"> <label for="purchase-total-cost" class="akmform-label" data-translate="label_total_cost">Total Cost</label> 
+                <input type="number" id="purchase-total-cost" class="akmform-control" min="0" step="100"> 
+            </div> 
+         </div>
+       </div>
+       <div class="akmform-group"> <label for="purchase-date" class="akmform-label" data-translate="label_date_time">Purchase Date &amp; Time</label> 
+        <input type="datetime-local" id="purchase-date" class="akmform-control" required> 
+       </div> 
+       <div class="akmform-group" id="purchase-expiry-date-group" style="display: none;">
+        <label for="purchase-expiry-date" class="akmform-label" data-translate="label_expiry_date">Expiration Date</label>
+        <input type="date" id="purchase-expiry-date" class="akmform-control">
+       </div>
+      </form> 
+     </div> 
+     <div class="akm-modal-footer"> <button type="button" class="akmbtn akmbtn-secondary akm-modal-close"><span data-translate="btn_cancel">Cancel</span></button> <button type="button" class="akmbtn akmbtn-primary" id="save-purchase-btn"><span data-translate="btn_save_purchase">Save Purchase</span></button> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+
+  <div class="akm-modal" id="confirm-modal"> 
+   <div class="akm-modal-dialog"> 
+    <div class="akm-modal-content"> 
+     <div class="akm-modal-header"> 
+      <h3 class="akm-modal-title" id="confirm-modal-title">Confirm Action</h3> <button type="button" class="akm-modal-close">×</button> 
+     </div> 
+     <div class="akm-modal-body"> 
+      <p id="confirm-message">Are you sure?</p> 
+      <div id="reset-confirm-input-container" style="display: none;"> 
+       <input type="text" id="reset-confirm-input" class="akmform-control" placeholder=""> 
+      </div> 
+     </div> 
+     <div class="akm-modal-footer"> <button type="button" class="akmbtn akmbtn-secondary akm-modal-close" id="confirm-cancel-btn"><span data-translate="btn_cancel">Cancel</span></button> <button type="button" class="akmbtn akmbtn-danger" id="confirm-ok-btn"><span data-translate="btn_confirm">Confirm</span></button> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+  <div class="akm-modal" id="report-modal"> 
+   <div class="akm-modal-dialog" style="max-width: 800px;"> 
+    <div class="akm-modal-content"> 
+     <div class="akm-modal-header"> 
+      <h3 class="akm-modal-title"><span data-translate="title_report">Report</span> - <span id="report-date-title"></span></h3> <button type="button" class="akm-modal-close">×</button> 
+     </div> 
+     <div class="akm-modal-body" id="report-content-wrapper"> 
+      <div id="report-content"></div> 
+     </div> 
+     <div class="akm-modal-footer"> <button type="button" class="akmbtn akmbtn-secondary akm-modal-close"><span data-translate="btn_close">Close</span></button> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+  <div class="akm-modal" id="image-viewer-modal"> 
+   <div class="akm-modal-dialog"> <button type="button" class="akm-modal-close" style="position: absolute; top: 10px; right: 10px; z-index: 1; font-size: 2rem;">×</button> 
+    <img id="full-size-image" src="" alt="Full-size Product Image"> 
+   </div> 
+  </div> 
+  <div class="akm-modal" id="receipt-modal"> 
+   <div class="akm-modal-dialog"> 
+    <div class="akm-modal-content"> 
+     <div class="akm-modal-header"> 
+      <h3 class="akm-modal-title" data-translate="modal_sale_completed_title">Sale Completed</h3> <button type="button" class="akm-modal-close">×</button> 
+     </div> 
+     <div class="akm-modal-body"> 
+      <div id="receipt-content"> 
+      </div> 
+     </div> 
+     <div class="akm-modal-footer"> <button type="button" class="akmbtn akmbtn-secondary akm-modal-close"><span data-translate="btn_close">Close</span></button> <button type="button" class="akmbtn akmbtn-primary" id="save-receipt-img-btn"><i class="fas fa-image"></i> Save Image</button> <button type="button" class="akmbtn akmbtn-success" id="share-receipt-btn"><i class="fas fa-share-alt"></i> <span data-translate="btn_share_receipt">Share Receipt</span></button> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+ 
+  <div class="akm-modal" id="sale-details-modal">
+    <div class="akm-modal-dialog">
+        <div class="akm-modal-content">
+            <div class="akm-modal-header">
+                <h3 class="akm-modal-title" id="sale-details-title">Sale Details</h3>
+                <button type="button" class="akm-modal-close" data-target="sale-details-modal">×</button>
+            </div>
+            <div class="akm-modal-body" id="sale-details-body">
+                
+            </div>
+            <div class="akm-modal-footer">
+                <button type="button" class="akmbtn akmbtn-secondary akm-modal-close" data-target="sale-details-modal"><span data-translate="btn_close">Close</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+
+</body></html>
